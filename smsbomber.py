@@ -611,7 +611,7 @@ class SMSBomber:
         try:
             normalized_phone = normalize_phone_number(phone_number).replace('+', '')
             
-            if not normalized_phone.startswith('63'):
+            if not normalized_phone.startswith('91'):
                 return False
 
             headers = {'Content-Type': 'application/json'}
@@ -632,12 +632,12 @@ class SMSBomber:
             return False
 
     def format_number(self, number):
-        if number.startswith('+63'):
+        if number.startswith('+91'):
             return number
-        elif number.startswith('09'):
-            return '+63' + number[2:]
+        elif number.startswith('08'):
+            return '+91' + number[2:]
         elif number.startswith('9'):
-            return '+63' + number
+            return '+91' + number
         else:
             return number
 
