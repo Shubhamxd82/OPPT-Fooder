@@ -153,19 +153,28 @@ def random_uid():
 def random_device_id():
     return random_string(16)
 
-def normalize_phone_number(phone):
-    phone = phone.replace(' ', '')
-    
-    if phone.startswith('0'):
-        return '+63' + phone[1:]
-    elif phone.startswith('63') and not phone.startswith('+63'):
+def normalize_indian_phone(phone):
+    # Remove spaces, dashes, brackets, etc.
+    phone = re.sub(r'[^\d+]', '', phone)
+
+    # Already normalized
+    if phone.startswith('+91'):
+        return phone
+
+    # Starts with 91 but missing +
+    if phone.startswith('91') and len(phone) == 12:
         return '+' + phone
-    elif not phone.startswith('+63') and len(phone) == 10:
-        return '+63' + phone
-    elif not phone.startswith('+'):
-        return '+63' + phone
-    
-    return phone
+
+    # Starts with 0
+    if phone.startswith('0') and len(phone) == 11:
+        return '+91' + phone[1:]
+
+    # Plain 10-digit Indian number
+    if len(phone) == 10:
+        return '+91' + phone
+
+    # Invalid format
+    return None
 
 FINGERPRINT_VISITOR_ID = "TPt0yCuOFim3N3rzvrL1"
 FINGERPRINT_REQUEST_ID = "1757149666261.Rr1VvG"
